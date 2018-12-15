@@ -53,8 +53,8 @@ def setup(commands, name='Caja PyExtension', label='customized extension', tip='
             if os.path.isfile(curr_dir):
                 curr_dir = os.path.dirname(curr_dir)
 
-            # bash_string = "code " + curr_dir.replace(' ', '\ ')
-            bash_string = commands
+            to_be_exec = "global bash_string;" + "bash_string=" + str(commands)
+            exec(to_be_exec)
 
             subprocess.call(bash_string, shell=True)
 
@@ -75,3 +75,9 @@ def setup(commands, name='Caja PyExtension', label='customized extension', tip='
                                  icon=icon)
             item.connect('activate', self.run, current_directory)
             return [item]
+
+
+# test function : open terminal in the current folder in caja
+# you can change the line below with any legal python commands in string type
+mystr = '"cd \"" + curr_dir + "\" && x-terminal-emulator &"'
+setup(mystr)
